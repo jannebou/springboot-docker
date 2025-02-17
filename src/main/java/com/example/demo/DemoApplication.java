@@ -1,3 +1,7 @@
+
+/**
+ * Tämä on com.example.demo -paketin dokumentaatio.
+ */
 package com.example.demo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
