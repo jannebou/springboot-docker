@@ -4,8 +4,6 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/go/dockerfile-reference/
 
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
 ################################################################################
 
 # Create a stage for resolving and downloading dependencies.
@@ -36,8 +34,10 @@ FROM deps as package
 WORKDIR /build
 
 COPY ./src src/
+COPY checkstyle.xml checkstyle.xml
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
+    ./mvnw checkstyle:check && \
     ./mvnw package -DskipTests && \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
